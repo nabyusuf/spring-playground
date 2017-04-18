@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -19,7 +21,7 @@ public class WordCountController {
     WordCounter counter;
 
     @PostMapping("/words/count/")
-    public ResponseEntity<?> postWordCount(String input){
+    public @ResponseBody ResponseEntity<?> postWordCount(@RequestBody String input){
         Map<String, Integer> countMap = new HashMap<>();
         countMap = counter.count(input);
         return new ResponseEntity<Object>(countMap, HttpStatus.OK);
