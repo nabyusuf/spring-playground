@@ -1,7 +1,6 @@
 package com.example.jsonendpoints;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,7 +46,7 @@ public class FlightController {
         Flight.Details details2 = new Flight.Details(passenger2, 400);
         Flight flight2 = new Flight(date2, Arrays.asList(details2));
 
-        List<Flight> flightList = new ArrayList<>();
+        List<Flight> flightList = new ArrayList();
         flightList.add(flight1);
         flightList.add(flight2);
 
