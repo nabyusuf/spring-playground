@@ -17,6 +17,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.not;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,24 +37,6 @@ public class WordCountControllerTest {
 
     @Autowired
     MockMvc mvc;
-
-    /*@Autowired
-    private WordCountConfigProps countConfigProps;
-
-    @Test
-    public void testWordCount() throws Exception {
-        String input = "The brown cow jumps over the brown fox";
-        WordCounter wordCounter = new WordCounter(countConfigProps);
-        wordCounter.count(input);
-
-        Map<String, Integer> mapCount = mapValidate(input);
-
-        assertThat(mapCount.size(), is(7));
-        assertThat(mapCount, IsMapContaining.hasEntry("The",1));
-        assertThat(mapCount, IsMapContaining.hasKey("brown"));
-        assertThat(mapCount, IsMapContaining.hasValue(2));
-
-    }*/
 
     @Test
     public void testPostWordCount() throws Exception {
