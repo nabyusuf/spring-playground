@@ -10,10 +10,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -53,16 +57,23 @@ public class FlightControllerTest {
 
     @Test
     public void testGetForFlightListWithJson() throws Exception {
-        this.mvc.perform(get("/flights/")
+       // String json = getJSON("/data.json");
+
+        this.mvc.perform(get("/flights/flight")
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].tickets[0].passenger.firstName", is("Some name")))
-                .andExpect(jsonPath("$.[0].tickets[0].passenger.lastName", is("Some other name")))
+                .andExpect(jsonPath("$.Tickets[0].Passenger.FirstName", is("Some name")));
+                /*.andExpect(jsonPath("$.[0].tickets[0].passenger.lastName", is("Some other name")))
                 .andExpect(jsonPath("$.[0].tickets[0].price", is(200)))
                 .andExpect(jsonPath("$.[1].tickets[0].passenger.firstName", is("Some other name")))
                 .andExpect(jsonPath("$.[1].tickets[0].passenger.lastName", isEmptyOrNullString()))
-                .andExpect(jsonPath("$.[1].tickets[0].price", is(400)));
+                .andExpect(jsonPath("$.[1].tickets[0].price", is(400)));*/
+    }
+
+    private String getJSON(String path) throws Exception {
+        URL url = this.getClass().getResource(path);
+        return new String(Files.readAllBytes(Paths.get(url.getFile())));
     }
 }
 

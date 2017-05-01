@@ -45,4 +45,5 @@ public class Search {
 
     @JsonProperty(value = "Poster")
     public void setPoster(String Poster) { this.poster = Poster; }
+
 }
