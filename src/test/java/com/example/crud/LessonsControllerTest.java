@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -92,8 +93,23 @@ public class LessonsControllerTest {
 
         this.mvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"id\":1,\"title\":\"CNE\"}"));
+                .andExpect(content().string("{\"id\":1,\"title\":\"CNE\",\"deliveredOn\":null}"));
     }
 
+    @Test
+    public void testPatch() throws Exception {
+        String requestToPatch = "{\"title\": \"Spring Security\",\"deliveredOn\": \"2017-04-12\"}";
 
+        Lesson lesson = new Lesson();
+        lesson.setTitle("CNE");
+        repository.save(lesson);
+
+        MockHttpServletRequestBuilder request = patch("/lessons/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestToPatch);
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string("{\"id\":1,\"title\":\"Spring Security\",\"deliveredOn\":\"2017-04-12\"}"));
+    }
 }
