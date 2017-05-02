@@ -112,4 +112,51 @@ public class LessonsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("{\"id\":1,\"title\":\"Spring Security\",\"deliveredOn\":\"2017-04-12\"}"));
     }
+
+    @Test
+    public void testFindByTitle() throws Exception {
+        String requestPost = "{\"title\": \"SQL\",\"deliveredOn\": \"2012-06-09\"}";
+
+        MockHttpServletRequestBuilder request = post("/lessons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestPost);
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk());
+
+        MockHttpServletRequestBuilder request1 = get("/lessons/find/SQL")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        this.mvc.perform(request1)
+                .andExpect(status().isOk())
+                .andExpect(content().string("{\"id\":5,\"title\":\"SQL\",\"deliveredOn\":\"2012-06-09\"}"));
+
+    }
+
+    @Test
+    public void testGetInBetween() throws Exception {
+        String requestString1 = "{\"id\": 1,\"title\": \"Dependency Injection\",\"deliveredOn\": \"2014-03-17\"}";
+        String requestString2 = "{\"id\": 2,\"title\": \"Transactions\",\"deliveredOn\": \"2015-03-17\"}";
+
+        MockHttpServletRequestBuilder request1 = post("/lessons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestString1);
+
+        this.mvc.perform(request1)
+                .andExpect(status().isOk());
+
+        MockHttpServletRequestBuilder request2 = post("/lessons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestString2);
+
+        this.mvc.perform(request2)
+                .andExpect(status().isOk());
+
+        MockHttpServletRequestBuilder request3 = get("/lessons/between?date1=2014-01-01&date2=2017-12-31")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        this.mvc.perform(request3)
+                .andExpect(status().isOk())
+                .andExpect(content().string("[{\"id\":1,\"title\":\"Dependency Injection\",\"deliveredOn\":\"2014-03-17\"},{\"id\":2,\"title\":\"Transactions\",\"deliveredOn\":\"2015-03-17\"}]"));
+    }
 }

@@ -3,7 +3,11 @@ package com.example.crud.controller;
 import com.example.crud.model.Lesson;
 import com.example.crud.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by trainer3 on 4/9/17.
@@ -49,4 +53,15 @@ public class LessonsController {
         this.repository.delete(id);
     }
 
+    @GetMapping("/find/{title}")
+    public Lesson findByTitle(@PathVariable String title){
+        return this.repository.findByTitle(title);
+    }
+
+    @GetMapping("/between")
+    public List<Lesson> findLessonsBetweenDates(
+            @RequestParam(value = "date1") @DateTimeFormat(pattern="yyyy-MM-dd")Date date1,
+            @RequestParam(value = "date2") @DateTimeFormat(pattern="yyyy-MM-dd")Date date2){
+        return this.repository.findLessonsBetweenDates(date1,date2);
+    }
 }

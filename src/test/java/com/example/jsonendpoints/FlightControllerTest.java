@@ -33,16 +33,15 @@ public class FlightControllerTest {
     @Autowired
     private MockMvc mvc;
 
-   /* @Test
+    @Test
     public void testFlightRequest() throws Exception {
         MockHttpServletRequestBuilder request = get("/flights/flight")
                 .contentType(MediaType.APPLICATION_JSON);
-                //.content("\"departs\": \"2017-04-21 14:34\",\"tickets\": [{\"passenger\": {\"firstName\": \"Some name\",\"lastName\": \"Some other name\"},\"price\": 200}]}");
 
         this.mvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(content().string("Search: q=something from=2008"));
-    }*/
+                .andExpect(content().string("{\"Departs\":\"2017-05-02 18:56\",\"Tickets\":[{\"Passenger\":{\"FirstName\":\"Some name\",\"LastName\":\"Some other name\"},\"Price\":200}]}"));
+    }
 
     @Test
     public void testGetForFlightWithJson() throws Exception {
@@ -50,9 +49,9 @@ public class FlightControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.tickets[0].passenger.firstName", is("Some name")))
-                .andExpect(jsonPath("$.tickets[0].passenger.lastName", is("Some other name")))
-                .andExpect(jsonPath("$.tickets[0].price", is(200)));
+                .andExpect(jsonPath("$.Tickets[0].Passenger.FirstName", is("Some name")))
+                .andExpect(jsonPath("$.Tickets[0].Passenger.LastName", is("Some other name")))
+                .andExpect(jsonPath("$.Tickets[0].Price", is(200)));
     }
 
     @Test
@@ -63,12 +62,12 @@ public class FlightControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.Tickets[0].Passenger.FirstName", is("Some name")));
-                /*.andExpect(jsonPath("$.[0].tickets[0].passenger.lastName", is("Some other name")))
-                .andExpect(jsonPath("$.[0].tickets[0].price", is(200)))
-                .andExpect(jsonPath("$.[1].tickets[0].passenger.firstName", is("Some other name")))
-                .andExpect(jsonPath("$.[1].tickets[0].passenger.lastName", isEmptyOrNullString()))
-                .andExpect(jsonPath("$.[1].tickets[0].price", is(400)));*/
+                .andExpect(jsonPath("$.Tickets[0].Passenger.FirstName", is("Some name")))
+                .andExpect(jsonPath("$.Tickets[0].Passenger.LastName", is("Some other name")))
+                .andExpect(jsonPath("$.Tickets[0].Price", is(200)))
+                .andExpect(jsonPath("$.Tickets[1].Passenger.FirstName", is("Some other name")))
+                .andExpect(jsonPath("$.Tickets[1].Passenger.LastName", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.Tickets[1].Price", is(400)));
     }
 
     private String getJSON(String path) throws Exception {
